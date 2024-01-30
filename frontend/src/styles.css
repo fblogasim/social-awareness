@@ -1,0 +1,118 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap");
+
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+  "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  monospace;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  width: 100%;
+  padding: 20px;
+  background-color:rgba(168, 118, 11,0.5);
+}
+
+.overlay h5,
+.overlay p {
+  margin: 0;
+}
+
+.btn{
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color:#f2b430;
+  border:none;
+  border-radius:25px;
+  width:150px;
+}
+
+.btn:hover{
+  background-color:#c0870c;
+}
+
+.card{
+  padding:12px;
+  background-color:#fdf6e8;
+}
+
+.content-main{
+  margin-top: 100px;
+}
+
+.view-more{
+  z-index: 10;
+}
+
+.navbar{
+  background-color: white;
+  }
+
+.nav-item .nav-link{
+  color: block;
+  
+}
+
+.navbar-brand{
+  font-weight: bold;
+  color: black;
+}
+
+.collapsed{
+  color: black;
+  text-decoration: none;
+}
+
+.col-lg-4.sidebar{
+  margin-top: 40px;
+}
+
+.join-btn{
+   background-color:#f2b430;
+  border:none;
+  border-radius:25px;
+  width:150px;
+  color: white;
+  height: 37px;
+}
+
+.join-btn:hover{
+  background-color:#c0870c;
+}
+
+.closeDetails{
+  color: #f2b430;
+  float: right;
+}
