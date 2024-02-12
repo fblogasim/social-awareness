@@ -10,6 +10,7 @@ import SideBar from "./components/SideBar";
 import PostAdvertisement from "./components/PostAdvertisement";
 import PostCampaign from "./components/PostCampaign";
 import Advertisements from "./components/Advertisements";
+import AboutUs from "./components/AboutUs";
 
 const AppContainer = styled.div`
   width: 100%;
@@ -59,7 +60,9 @@ export default function App() {
                 <PostCampaign />
               ) : navItem === "Advertisements" ? (
                 <Advertisements />
-              ) : null}
+              ) : navItem === "AboutUs" ? (
+		<AboutUs />
+	      ) : null}
             </div>
           </div>
           <div class="col-lg-4 sidebar">
