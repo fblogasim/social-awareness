@@ -34,6 +34,7 @@ function Advertisements() {
               <div className="col-sm-4">
                 <div className="card" key={key}>
                   <strong>{AdvertisementsData[key].title}</strong>{" "}
+                  <img src={require("../images/Placeholder.png")} />
                   <a class="btn-primary" onClick={() => setSelectedAd(key)}>
                     Learn More{" "}
                   </a>

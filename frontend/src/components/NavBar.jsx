@@ -36,7 +36,7 @@ export default function NavBar() {
                   Login
                 </a>
               </li>
-              <li className="nav-item" onClick = {()=> setNavItem("AboutUs") }>
+              <li className="nav-item" onClick={() => setNavItem("AboutUs")}>
                 <a className="nav-link" href="#">
                   About Us
                 </a>
@@ -63,6 +63,11 @@ export default function NavBar() {
               >
                 <a className="nav-link" href="#">
                   Support Local
+                </a>
+              </li>
+              <li className="nav-item" onClick={() => setNavItem("AdminPanel")}>
+                <a className="nav-link" href="#">
+                  Admin Panel
                 </a>
               </li>
             </ul>

@@ -11,6 +11,7 @@ import PostAdvertisement from "./components/PostAdvertisement";
 import PostCampaign from "./components/PostCampaign";
 import Advertisements from "./components/Advertisements";
 import AboutUs from "./components/AboutUs";
+import PostApproval from "./components/AdminPanel";
 
 const AppContainer = styled.div`
   width: 100%;
@@ -61,8 +62,10 @@ export default function App() {
               ) : navItem === "Advertisements" ? (
                 <Advertisements />
               ) : navItem === "AboutUs" ? (
-		<AboutUs />
-	      ) : null}
+                <AboutUs />
+              ) : navItem === "AdminPanel" ? (
+                <PostApproval />
+              ) : null}
             </div>
           </div>
           <div class="col-lg-4 sidebar">

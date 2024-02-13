@@ -57,6 +57,7 @@ function PostCampaign() {
 
 	return (
 		<div className="card">
+			<h2>Post Campaign</h2>
 			<form>
 				<label htmlFor="title">Title</label>
 				<br />
