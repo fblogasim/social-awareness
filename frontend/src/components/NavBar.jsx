@@ -36,9 +36,9 @@ export default function NavBar() {
                   Login
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item" onClick = {()=> setNavItem("AboutUs") }>
                 <a className="nav-link" href="#">
-                  Contact
+                  About Us
                 </a>
               </li>
               <li
