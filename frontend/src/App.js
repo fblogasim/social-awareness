@@ -12,7 +12,7 @@ import PostCampaign from "./components/PostCampaign";
 import Advertisements from "./components/Advertisements";
 import AboutUs from "./components/AboutUs";
 import PostApproval from "./components/AdminPanel";
-
+import Viewall from "./components/viewall";
 const AppContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -72,6 +72,7 @@ export default function App() {
             <SideBar />
           </div>
         </div>
+
         <br />
 
         <Footer />

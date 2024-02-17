@@ -1,10 +1,15 @@
 import { useState } from "react";
+import axios from "axios";
 
 function PostAdvertisement() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [titleError, setTitleError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
+  const [image, setImage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [uploadStatus, setUploadStatus] = useState(null);
+
   function handleTitleChange(value) {
     var title = value; // get the value of the input
     if (title.length > 10) {
@@ -23,6 +28,38 @@ function PostAdvertisement() {
       setDescription(description);
     }
   }
+
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    setImage(selectedFile);
+  };
+
+  const submitForm = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("image", image);
+      formData.append("description", description);
+
+      const response = await axios.post(
+        "http://localhost:8080/postAdvertisement",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+
+      console.log("Image uploaded:", response.data);
+      setUploadStatus("uploaded");
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      setUploadStatus("notUploaded");
+    }
+  };
+
   return (
     <div class="card">
       <h1>Post Advertisement</h1>
@@ -48,11 +85,24 @@ function PostAdvertisement() {
         <p class="text-danger small">{descriptionError}</p>
         <label htmlFor="Image">Upload Image</label>
         <br />
-        <input type="file" id="file" name="file" />
+        <input
+          type="file"
+          id="file"
+          name="file"
+          accept="image/*"
+          onChange={handleFileChange}
+        />
         <br />
         <p class="text-info small">Note: Image must be in JPG or PNG format</p>
         <br />
-        <button class="join-btn">Post</button>
+        <button class="join-btn" onClick={submitForm}>
+          Post
+        </button>
+        {uploadStatus === "uploaded" ? (
+          <p className="text-success">Campaign Posted</p>
+        ) : uploadStatus === "notUploaded" ? (
+          <p className="text-danger">Not uploaded</p>
+        ) : null}
       </form>
     </div>
   );

@@ -1,9 +1,15 @@
 import { useState } from "react";
+import axios from "axios";
 
 function PostCampaign() {
-	const [selectedFile, setSelectedFile] = useState(null);
-	const [titleError, setTitleError] = useState(null);
-	const [descriptionError, setDescriptionError] = useState(null);
+	const [selectedFile, setSelectedFile] = useState("");
+	const [title, setTitle] = useState("");
+	const [titleError, setTitleError] = useState("");
+	const [description, setDescription] = useState("");
+	const [descriptionError, setDescriptionError] = useState("");
+	const [image, setImage] = useState("");
+	const [imageUrl, setImageUrl] = useState("");
+	const [uploadStatus, setUploadStatus] = useState(null);
 
 	function handleChange(value) {
 		var val = value;
@@ -13,6 +19,7 @@ function PostCampaign() {
 			console.log("name is too  long");
 		} else {
 			setTitleError(null);
+			setTitle(val);
 		}
 	}
 
@@ -26,6 +33,7 @@ function PostCampaign() {
 			console.log("description is too  long");
 		} else {
 			setDescriptionError(null);
+			setDescription(val);
 		}
 	}
 
@@ -42,18 +50,32 @@ function PostCampaign() {
 		}
 	}
 
-	function handleSubmit(e) {
+	const submitForm = async (e) => {
 		e.preventDefault();
+		try {
+			const formData = new FormData();
+			formData.append("title", title);
+			formData.append("image", selectedFile);
+			formData.append("description", description);
+			formData.append("status", "pending");
 
-		if (selectedFile) {
-			// Perform any actions with the selected image file, e.g., upload to a server
-			console.log("Selected File:", selectedFile);
-			window.alert(selectedFile.name);
-		} else {
-			// Handle the case when no valid image is selected
-			alert("Please select a valid image file.");
+			const response = await axios.post(
+				"http://localhost:8080/postCampaign",
+				formData,
+				{
+					headers: {
+						"Content-Type": "multipart/form-data",
+					},
+				},
+			);
+
+			console.log("Campaign uploaded:", response.data);
+			setUploadStatus("uploaded");
+		} catch (error) {
+			console.error("Error uploading image:", error);
+			setUploadStatus("notUploaded");
 		}
-	}
+	};
 
 	return (
 		<div className="card">
@@ -73,7 +95,7 @@ function PostCampaign() {
 					name="Description"
 					rows="4"
 					cols="50"
-					maxlength="200"
+					maxLength="200"
 					onChange={(e) => handleTextChange(e.target.value)}
 				></textarea>
 				<p className="text-danger small">{descriptionError}</p>
@@ -87,9 +109,14 @@ function PostCampaign() {
 				/>
 				<br />
 				<br />
-				<button className="join-btn" onClick={handleSubmit}>
+				<button className="join-btn" onClick={submitForm}>
 					Submit
 				</button>
+				{uploadStatus === "uploaded" ? (
+					<p className="text-success">Campaign Posted</p>
+				) : uploadStatus === "notUploaded" ? (
+					<p className="text-danger">Not uploaded</p>
+				) : null}
 			</form>
 		</div>
 	);

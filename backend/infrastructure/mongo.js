@@ -34,10 +34,20 @@ async function deleteUser(email) {
   await db.collection("users").deleteOne({ email });
 }
 
+async function addAdvertisement(advertisement) {
+  const db = client.db("advertisements");
+  await db.collection("advertisements").insertOne(advertisement);
+  const newAdvertisement = await db
+    .collection("advertisements")
+    .findOne({ _id: advertisement._id });
+  return newAdvertisement;
+}
+
 module.exports = {
   initMongo,
   getUsers,
   addUser,
+  addAdvertisement,
   getUserByEmail,
   deleteUser,
 };

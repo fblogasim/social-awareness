@@ -1,28 +1,28 @@
 import React from "react";
 import { useState } from "react";
+import axios from "axios";
+import { useEffect } from "react";
 
 function Advertisements() {
+  const [entries, setEntries] = useState([]);
   const [selectedAd, setSelectedAd] = useState(null);
-  function showDetails() {}
-  // Sample data for the Advertisements object
-  const AdvertisementsData = {
-    ad1: {
-      title: "Advertisement 1",
-      description: "This is the first ad. description",
-    },
-    ad2: {
-      title: "Advertisement 2",
-      description: "This is the second ad. description",
-    },
-    ad3: {
-      title: "Advertisement 3",
-      description: "This is the third ad. description",
-    },
-    ad4: {
-      title: "Advertisement 4",
-      description: "This is the fourth ad. description",
-    },
-  };
+  let url;
+
+  //fetch images when the component is mounted
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/advertisements",
+        );
+        setEntries(response.data);
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      }
+    };
+
+    fetchImages();
+  }, []);
 
   return (
     <>
@@ -30,27 +30,28 @@ function Advertisements() {
         <h2>Advertisements</h2>
         <ul>
           <div className="row">
-            {Object.keys(AdvertisementsData).map((key) => (
+            {entries.map((entry) => (
               <div className="col-sm-4">
-                <div className="card" key={key}>
-                  <strong>{AdvertisementsData[key].title}</strong>{" "}
-                  <img src={require("../images/Placeholder.png")} />
-                  <a class="btn-primary" onClick={() => setSelectedAd(key)}>
+                <div className="card" key={entry._id}>
+                  <strong>{entry.title}</strong>{" "}
+                  <img src={entry.imageUrl.slice(18)} alt={entry.title} />
+                  <a class="btn-primary" onClick={() => setSelectedAd(entry)}>
                     Learn More{" "}
                   </a>
                 </div>
               </div>
             ))}
           </div>
+          {console.log(selectedAd)}
         </ul>
       </div>
       <div className="details">
-        {selectedAd && (
-          <div>
-            <h3>{AdvertisementsData[selectedAd].title}</h3>
-            <p>{AdvertisementsData[selectedAd].description}</p>
+        {selectedAd !== null ? (
+          <div className="card">
+            <h3>{selectedAd.title}</h3>
+            <p>{selectedAd.description}</p>
           </div>
-        )}
+        ) : null}
       </div>
     </>
   );
