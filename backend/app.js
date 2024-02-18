@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
+// database connection using built-in express methods
 async function main() {
   await initMongo();
 }
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
   res.sendStatus(200);
 });
 
+//connection to MongoDB using Mongoose
 mongoose.connect(
   "mongodb+srv://9dlevel9:QU33nLaT@cluster0.wdqraj0.mongodb.net/?retryWrites=true&w=majority",
   {
@@ -34,7 +36,7 @@ mongoose.connect(
   },
 );
 
-// Configure multer
+// multer storage configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "../frontend/public/uploads/");
@@ -46,12 +48,14 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+//model for the Advertisement collection
 const Image = mongoose.model("Image", {
   imageUrl: String,
   title: String,
   description: String,
 });
 
+//model for the Campaign collection
 const Campaign = mongoose.model("Campaign", {
   imageUrl: String,
   title: String,
@@ -59,7 +63,7 @@ const Campaign = mongoose.model("Campaign", {
   status: String,
 });
 
-//POST request API
+//POST request API for advertisements
 app.post("/postAdvertisement", upload.single("image"), async (req, res) => {
   try {
     const newImage = new Image({
@@ -78,7 +82,7 @@ app.post("/postAdvertisement", upload.single("image"), async (req, res) => {
   }
 });
 
-//POST request API
+//POST request API for campaigns
 app.post("/postCampaign", upload.single("image"), async (req, res) => {
   try {
     const newCampaign = new Campaign({
@@ -98,7 +102,7 @@ app.post("/postCampaign", upload.single("image"), async (req, res) => {
   }
 });
 
-// Route to fetch all images
+// Route to fetch all advertisements
 app.get("/Advertisements", async (req, res) => {
   try {
     const images = await Image.find();
@@ -109,7 +113,7 @@ app.get("/Advertisements", async (req, res) => {
   }
 });
 
-// Route to fetch all campaigns
+// Route to fetch campaigns that are approved
 app.get("/campaigns", async (req, res) => {
   try {
     const campaigns = await Campaign.find({ status: "approved" });
@@ -119,6 +123,17 @@ app.get("/campaigns", async (req, res) => {
     res.status(500).send("Error fetching campaigns");
   }
 });
+
+//Route to fetch campaigns that are pending
+ app.get("/pendingCampaigns", async (req, res) => {
+   try {
+     const campaigns = await Campaign.find({ status: "pending" });
+     res.json(campaigns);
+   } catch (error) {
+     console.error("Error fetching campaigns:", error);
+     res.status(500).send("Error fetching campaigns");
+   }
+ });
 
 //application routes
 app.use("/signup", signupRouter);

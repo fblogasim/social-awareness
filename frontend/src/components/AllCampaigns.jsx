@@ -1,16 +1,16 @@
+//this  component renders all approved campaigns and provides details
 import React from "react";
 import { useState, useContext, createContext } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 
 export default function AllCampaigns() {
+  //this variable stores campaign entries sent by the server
   const [entries, setEntries] = useState([]);
+  //this variable keeps track of the campaign selected by the user
   const [selectedCampaign, setSelectedCampaign] = useState(null);
 
-  const [Campaign, setCampaign] = useState(null);
-  const [rendered, setRendered] = useState(false);
-
-  //fetch images when the component is mounted
+  //fetch campaigns when the component is mounted
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
@@ -32,8 +32,9 @@ export default function AllCampaigns() {
           <div className="row">
             {entries.map((entry) => (
               <div className="col-sm-4">
-                <div className="card" key={entry._id}>
+                <div className="card post" key={entry._id}>
                   <strong>{entry.title}</strong>{" "}
+                  {/* the splice function is used to get the correct relative path for the image */}
                   <img src={entry.imageUrl.slice(18)} alt={entry.title} />
                   <a
                     class="btn-primary"

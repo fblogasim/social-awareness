@@ -99,7 +99,7 @@ function PostAdvertisement() {
           Post
         </button>
         {uploadStatus === "uploaded" ? (
-          <p className="text-success">Campaign Posted</p>
+          <p className="text-success">Advertisement Posted</p>
         ) : uploadStatus === "notUploaded" ? (
           <p className="text-danger">Not uploaded</p>
         ) : null}

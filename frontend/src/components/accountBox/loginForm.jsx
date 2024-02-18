@@ -13,8 +13,10 @@ import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
 import { DEFAULT_STATE, FormReducer } from "../../utils/state";
 import { validateForm, validateInput } from "../../utils/validation";
+import { Context } from "../../App.js";
 
 export function LoginForm(props) {
+  const [navItem, setNavItem] = useContext(Context);
   const { switchToSignup } = useContext(AccountContext);
   const [state, dispatch] = useImmerReducer(FormReducer, DEFAULT_STATE);
   const [showLoader, setShowLoader] = useState(false);
@@ -28,7 +30,7 @@ export function LoginForm(props) {
         payload: { newValue, error },
       });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const submitForm = async (e) => {
@@ -60,9 +62,10 @@ export function LoginForm(props) {
             message: formResponse.message,
           },
           null,
-          2
+          2,
         );
         alert(message);
+        setNavItem("Campaigns");
       }
     }
   };

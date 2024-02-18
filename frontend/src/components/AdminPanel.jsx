@@ -1,58 +1,46 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
+import axios from "axios";
+import { useEffect } from "react";
 
 function PostApproval() {
-  const [posts, setPosts] = useState({
-    post1: {
-      id: "post1",
-      content: "This is the content of Campaign 1",
-      isApproved: null,
-    },
-    post2: {
-      id: "post2",
-      content: "This is the content of Campaign 2",
-      isApproved: null,
-    },
-    post3: {
-      id: "post3",
-      content: "This is the content of Campaign 3",
-      isApproved: null,
-    },
-  });
+  //this variable stores advertisement entries sent by the server
+  const [entries, setEntries] = useState([]);
+  //this variable keeps track of the advertisement selected by the user
+  const [selectedAd, setSelectedAd] = useState(null);
 
-  const handleApprove = (postId) => {
-    setPosts({
-      ...posts,
-      [postId]: { ...posts[postId], isApproved: true },
-    });
-  };
+  //fetch pending campaigns when the component is mounted
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/pendingCampaigns",
+        );
+        setEntries(response.data);
+        alert(entries);
+      } catch (error) {
+        console.error("Error fetching pending campaigns:", error);
+      }
+    };
 
-  const handleDecline = (postId) => {
-    setPosts({
-      ...posts,
-      [postId]: { ...posts[postId], isApproved: false },
-    });
-  };
+    fetchData();
+  }, []);
 
   return (
     <div>
       <h2>Campaign Approval</h2>
-      {Object.values(posts).map((post) => (
-        <div key={post.id} className="card">
-          <p>{post.content}</p>
-          <img src={require("../images/Placeholder.png")} />
-          {post.isApproved ? (
-            <p style={{ color: "green" }}>Post is Approved!</p>
-          ) : post.isApproved === false ? (
-            <p style={{ color: "red" }}>Post is Declined.</p>
-          ) : null}
+      {entries.map((entry) => (
+        <div key={entry._id} className="card">
+          <p>{entry.title}</p>
+	  <p className = "text-info">{entry.description}</p>
+          <img src={entry.imageUrl.slice(18)} alt={entry.title} />
           <button
-            onClick={() => handleApprove(post.id)}
+           
             className="button success"
           >
             Approve
           </button>
           <button
-            onClick={() => handleDecline(post.id)}
             className="button danger"
           >
             Decline

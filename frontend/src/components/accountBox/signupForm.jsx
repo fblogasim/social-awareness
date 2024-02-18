@@ -13,8 +13,10 @@ import { AccountContext } from "./accountContext";
 import { useImmerReducer } from "use-immer";
 import { DEFAULT_STATE, FormReducer } from "../../utils/state";
 import { validateForm, validateInput } from "../../utils/validation";
+import { Context } from "../../App.js";
 
 export function SignupForm(props) {
+  const [navItem, setNavItem] = useContext(Context);
   const { switchToSignin } = useContext(AccountContext);
   const [state, dispatch] = useImmerReducer(FormReducer, DEFAULT_STATE);
   const [showLoader, setShowLoader] = useState(false);
@@ -67,6 +69,7 @@ export function SignupForm(props) {
             2
           )
         );
+	setNavItem("Campaigns");
       }
     }
   };
